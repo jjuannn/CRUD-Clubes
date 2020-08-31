@@ -1,0 +1,31 @@
+{
+  "name": "crud-intento2",
+  "version": "1.0.0",
+  "description": "crud clubes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd ./src && nodemon --inspect main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjuannn/Crud-intento2.git"
+  },
+  "author": "juan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjuannn/Crud-intento2/issues"
+  },
+  "homepage": "https://github.com/jjuannn/Crud-intento2#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.2",
+    "chmod": "^0.2.1",
+    "express-handlebars": "^5.1.0"
+  }
+}
