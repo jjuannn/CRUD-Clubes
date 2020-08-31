@@ -1,0 +1,38 @@
+#header{
+    font-family: "unbutton";
+    color: black;
+}
+#container{
+    display: flex;
+    justify-content: center;
+}
+#tablaEquipos{
+    position: relative;
+    width: 80%;
+    margin: auto;
+    top: 50px;
+    border-radius: 25px;
+}
+h2{
+    position: relative;
+    left: 30px
+}
+#formulario{
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+}
+#escudo{
+    width: 58%;
+}
+#agregar-equipo{
+    position: relative;
+    left: 760px;
+    bottom: 30px;
+}
+.escudoEquipo{
+    height: 50px;
+}
+body{
+    overflow-x: hidden;
+}
