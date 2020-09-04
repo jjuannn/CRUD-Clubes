@@ -2,6 +2,10 @@
     font-family: "unbutton";
     color: black;
 }
+#formulario{
+    width: 50%;
+    margin: 0 auto;
+}
 #container{
     display: flex;
     justify-content: center;
