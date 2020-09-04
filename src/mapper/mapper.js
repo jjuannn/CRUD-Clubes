@@ -22,7 +22,7 @@ module.exports = function nuevoEquipo(equipo){
         sitioWeb, 
         fotoEscudo,
         pais,
-        anoFundacion,
-        numeroId
+        Number(anoFundacion),
+        Number(numeroId)
         )
 }
