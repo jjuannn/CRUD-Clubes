@@ -5,27 +5,31 @@ const app = express()
 const path = require("path")
 const multer = require ("multer")
 const upload = multer({dest: './uploads/imagenes'})
+
 const bodyParser = require("body-parser")
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const expHandlebars = require ("express-handlebars")
 const hbs = expHandlebars.create()
 
-app.use(express.static(`${__dirname}/uploads`))
+app.use(express.static("src"))
+//app.use(express.static(__dirname + "/uploads"))
 app.use(express.static(__dirname + '/styles'))
+
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
 const Equipo = require("./entities/equipo.js")
 const nuevoEquipo = require ("./mapper/mapper.js")
-const { type } = require("os")
-const { createSecretKey } = require("crypto")
-const { POINT_CONVERSION_HYBRID } = require("constants")
+const e = require("express")
 
+console.log(__dirname)
 
 app.get("/", (req, res) => {
+
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+
     res.render("main", {
         layout: "header",
         data:{
@@ -34,15 +38,21 @@ app.get("/", (req, res) => {
     })
 })
 app.get("/agregar-equipo", (req, res) => {
+
     res.render("add-team", {
         layout: "header",
     })
 })
 
 app.post("/agregar-equipo", urlencodedParser, upload.single("fotoEscudo"), (req, res) => {
+
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
     const equipoNuevo = req.body
     equipos.push(equipoNuevo)
+    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
+    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
+    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
+    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
 
     res.render("add-team", {
@@ -50,20 +60,87 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("fotoEscudo"), (req,
     })
     res.redirect("/")
 })
+
 app.get("/editar-equipo/:id", (req, res) => {
+
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    let equipoSeleccionado 
+
     for(let i = 0; i < equipos.length; i++){
-        let equipoSeleccionado
-        if(equipos[i].numeroId === req.params.id){
-            return equipoSeleccionado = equipos[i]
+        if(`id=${equipos[i].numeroId}` === req.params.id){
+            equipoSeleccionado = equipos[i]
         }
     }
-    //console.log(equipoSeleccionado)
+
     res.render("edit-team", {
         layout: "header", 
-           //data: equipoSeleccionado
+           data: {
+               equipoSeleccionado: equipoSeleccionado
+        }
     })
 })
+
+app.post("/editar-equipo/:id", urlencodedParser, (req, res) => {
+
+    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipoEditado = req.body
+
+    for(let i = 0; i < equipos.length; i++){
+        if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
+            equipos.splice(i, 1, equipoEditado)
+        }
+    }
+
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+
+    res.render("edit-team", {
+        layout: "header",
+    })
+    res.redirect("/")
+})
+
+app.get("/ver-equipo/:id", (req, res) => {
+    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+
+    let equipoSeleccionado 
+
+    for(let i = 0; i < equipos.length; i++){
+        if(`id=${equipos[i].numeroId}` === req.params.id){
+            equipoSeleccionado = equipos[i]
+        }
+    }
+
+    res.render("view-team", {
+        layout: "header", 
+           data: {
+               equipoSeleccionado: equipoSeleccionado
+        }
+    })
+
+})
+/*
+app.get("/borrar-equipo/:id", (req, res) => {
+
+    res.render("delete-team", {
+        layout: "header"
+    })
+
+})*/
+app.get("/borrar-equipo/:id", (req, res) => {
+    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    
+    for(let i = 0; i < equipos.length; i++){
+        if(`id=${equipos[i].numeroId}` === req.params.id){
+            equipos.splice(i, 1)
+            break
+        }
+    }
+
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+    
+    res.redirect("/")
+})
+
 /*
 app.get("/fotos", (req, res) => {
     res.render("fotos", {
