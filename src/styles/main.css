@@ -17,10 +17,19 @@ h2{
     position: relative;
     left: 30px
 }
-#formulario{
+#formulario-ver{
     position: relative;
+    width: 35%;
+    height: auto;
+    bottom: 245px;
+    left: 176px;
+}
+#formulario-editar{
     width: 50%;
     margin: 0 auto;
+}
+#aclaracion{
+    color: red;
 }
 #escudo{
     width: 58%;
@@ -35,4 +44,21 @@ h2{
 }
 body{
     overflow-x: hidden;
+    background-color: #fff3b0;
+}
+#carta-equipo{
+    width: 20rem
+}
+#carta{
+    width: 1044px;
+    align-content: center;
+    margin: 0 auto;
+}
+#escudo{
+    width: 72px;
+}
+#borrarEquipos{
+    text-align: center;
+    position: relative;
+    top: 70px;
 }
