@@ -6,7 +6,9 @@
       <th scope="col">Nombre</th>
       <th scope="col">Fundacion:</th>
       <th scope="col">Pais:</th>
-      <th scope="col">Accion</th>
+      <th scope="col">Editar:</th>
+      <th scope="col">Ver:</th>
+      <th scope="col">Eliminar:</th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +24,17 @@
       <td>{{equipo.pais}}</td>
       <td>
         <form id="editar-equipo" method="GET" action="/editar-equipo/id={{equipo.numeroId}}">
-          <button type="submit" class="btn btn-dark">Editar</button>
+          <button type="submit" class="btn btn-warning">Editar</button>
+        </form>
+      </td>
+      <td>
+        <form id="editar-equipo" method="GET" action="/ver-equipo/id={{equipo.numeroId}}">
+          <button type="submit" class="btn btn-success">Ver</button>
+        </form>
+      </td>
+      <td>
+        <form id="borrar-equipo" method="GET" action="/borrar-equipo/id={{equipo.numeroId}}">
+          <button type="submit" class="btn btn-danger">Eliminar</button>
         </form>
       </td>
     </tr>

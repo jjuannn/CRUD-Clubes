@@ -1,39 +1,44 @@
-<form id="formulario" method="POST" action="/editar-equipo/:id"><!--enctype="multipart/form-data" --> 
-  <div class="form-group">
-    <label for="nombre">Nombre del club:</label>
-    <input type="text" id="nombre" name="nombre" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="tla">Abreviatura:</label>
-    <input type="text" id="tla" name="abreviatura" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="estadio">Estadio:</label>
-    <input type="text" id="estadio" name="estadio" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="fundacion">Año de fundacion:</label>
-    <input type="number" id="añoFundacion" name="anoFundacion" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="telefono">Telefono:</label>
-    <input type="text" id="telefono" name="telefono" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="website">Sitio web:</label>
-    <input type="text" class="form-control" id="sitioWeb" name="website">
-  </div>
-  <div class="form-group">
-    <label for="pais">Pais:</label>
-    <input type="text" class="form-control" id="pais" name="pais"
-  </div>
+<form id="formulario-editar" method="POST" action="/editar-equipo/:id"><!--enctype="multipart/form-data" --> 
   <!-- PONER LIMITE DE CARACTERES -->
   <!-- PONER CAMPOS OBLIGATORIOS -->
   <!-- PONER LIMITE DE CARACTERES -->
   <!-- PONER CAMPOS OBLIGATORIOS -->
   <div class="form-group">
-      <label for="imagen">Escudo:</label>
-      <input type="file" class="form-control" text="Seleccionar escudo" id="imagen" name="fotoEscudo">
+    <label for="nombre">Nombre del club:*</label>
+    <input type="text" id="nombre" name="nombre" class="form-control" value="{{data.equipoSeleccionado.nombre}}" required>
   </div>
+  <div class="form-group">
+    <label for="tla">Abreviatura:*</label>
+    <input type="text" id="tla" name="abreviatura" class="form-control" value="{{data.equipoSeleccionado.abreviatura}}" required>
+  </div>
+  <div class="form-group">
+    <label for="estadio">Estadio:*</label>
+    <input type="text" id="estadio" name="estadio" class="form-control" value="{{data.equipoSeleccionado.estadio}}" required>
+  </div>
+  <div class="form-group">
+    <label for="fundacion">Año de fundacion:*</label>
+    <input type="number" id="añoFundacion" name="anoFundacion" class="form-control" value="{{data.equipoSeleccionado.anoFundacion}}" required>
+  </div>
+  <div class="form-group">
+    <label for="numeroId">Id:*</label>
+    <input type="number" id="numeroId" name="numeroId" min="1000" value="{{data.equipoSeleccionado.numeroId}}" readonly class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="telefono">Telefono:*</label>
+    <input type="text" id="telefono" name="telefono" class="form-control" value="{{data.equipoSeleccionado.telefono}}" required>
+  </div>
+  <div class="form-group">
+    <label for="website">Sitio web:*</label>
+    <input type="text" class="form-control" id="sitioWeb" name="website" value="{{data.equipoSeleccionado.sitioWeb}}" required>
+  </div>
+  <div class="form-group">
+    <label for="pais">Pais:*</label>
+    <input type="text" class="form-control" id="pais" name="pais" value="{{data.equipoSeleccionado.pais}}" required>
+  </div>
+  <div class="form-group">
+      <label for="imagen">Escudo:*</label>
+      <input type="file" class="form-control" text="Seleccionar escudo" id="imagen" name="fotoEscudo" required>
+  </div>
+  <p id="aclaracion">*Required field</p>
   <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
