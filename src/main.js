@@ -43,7 +43,7 @@ app.get("/agregar-equipo", (req, res) => {
         layout: "header",
     })
 })
-
+// HOLA
 app.post("/agregar-equipo", urlencodedParser, upload.single("fotoEscudo"), (req, res) => {
 
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
