@@ -57,6 +57,9 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("fotoEscudo"), (req,
 
     res.render("add-team", {
         layout: "header",
+        data: {
+            foto: req.file.filename
+        }
     })
     res.redirect("/")
 })
@@ -80,7 +83,7 @@ app.get("/editar-equipo/:id", (req, res) => {
     })
 })
 
-app.post("/editar-equipo/:id", urlencodedParser, (req, res) => {
+app.post("/editar-equipo/:id", urlencodedParser, upload.single("fotoEscudo"), (req, res) => {
 
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
     const equipoEditado = req.body
