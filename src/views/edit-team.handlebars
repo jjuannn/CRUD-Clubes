@@ -1,8 +1,4 @@
-<form id="formulario-editar" method="POST" action="/editar-equipo/:id"><!--enctype="multipart/form-data" --> 
-  <!-- PONER LIMITE DE CARACTERES -->
-  <!-- PONER CAMPOS OBLIGATORIOS -->
-  <!-- PONER LIMITE DE CARACTERES -->
-  <!-- PONER CAMPOS OBLIGATORIOS -->
+<form id="formulario-editar" method="POST" action="/editar-equipo/:id" enctype="multipart/form-data">
   <div class="form-group">
     <label for="nombre">Nombre del club:*</label>
     <input type="text" id="nombre" name="nombre" class="form-control" value="{{data.equipoSeleccionado.nombre}}" required>
@@ -29,7 +25,7 @@
   </div>
   <div class="form-group">
     <label for="website">Sitio web:*</label>
-    <input type="text" class="form-control" id="sitioWeb" name="website" value="{{data.equipoSeleccionado.sitioWeb}}" required>
+    <input type="text" class="form-control" id="sitioWeb" name="website" value="{{data.equipoSeleccionado.website}}" required>
   </div>
   <div class="form-group">
     <label for="pais">Pais:*</label>
@@ -37,7 +33,7 @@
   </div>
   <div class="form-group">
       <label for="imagen">Escudo:*</label>
-      <input type="file" class="form-control" text="Seleccionar escudo" id="imagen" name="fotoEscudo" required>
+      <input type="file" class="form-control" text="Seleccionar escudo" id="imagen" name="escudo" required>
   </div>
   <p id="aclaracion">*Required field</p>
   <button type="submit" class="btn btn-primary">Enviar</button>
