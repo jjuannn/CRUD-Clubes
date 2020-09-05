@@ -142,21 +142,4 @@ app.get("/borrar-equipo/:id", (req, res) => {
     res.redirect("/")
 })
 
-/*
-app.get("/fotos", (req, res) => {
-    res.render("fotos", {
-        layout: "header"
-    })
-})
-app.post("/fotos", upload.single('imagen'), (req, res) => {
-    console.log(req.file)
-    res.render("fotos",{
-        layout: "header",
-        data: {
-            mensaje: "Foto subida!",
-            nombreArchivo: req.file.filename
-        }
-    })
-})*/
-
 app.listen(3030)
