@@ -142,4 +142,5 @@ app.get("/borrar-equipo/:id", (req, res) => {
     res.redirect("/")
 })
 
-app.listen(3030)
+const PUERTO = 3030
+app.listen(process.env.PUERTO || PUERTO)
