@@ -53,7 +53,6 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
     equipoNuevo.fotoEscudo = fotoEscudo
     equipos.push(equipoNuevo)
 
-    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
 
     res.render("add-team", {
@@ -84,10 +83,13 @@ app.get("/editar-equipo/:id", (req, res) => {
     })
 })
 
-app.post("/editar-equipo/:id", urlencodedParser, upload.single("fotoEscudo"), (req, res) => {
+app.post("/editar-equipo/:id", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    
     const equipoEditado = req.body
+    const fotoEscudo = `/imagenes/${req.file.filename}`
+    equipoEditado.fotoEscudo = fotoEscudo
 
     for(let i = 0; i < equipos.length; i++){
         if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
@@ -99,6 +101,9 @@ app.post("/editar-equipo/:id", urlencodedParser, upload.single("fotoEscudo"), (r
 
     res.render("edit-team", {
         layout: "header",
+        data: {
+            foto: req.file.filename
+        }
     })
     res.redirect("/")
 })
