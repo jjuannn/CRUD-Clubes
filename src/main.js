@@ -13,7 +13,7 @@ const expHandlebars = require ("express-handlebars")
 const hbs = expHandlebars.create()
 
 app.use(express.static("src"))
-//app.use(express.static(__dirname + "/uploads"))
+app.use(express.static(__dirname + "/uploads"))
 app.use(express.static(__dirname + '/styles'))
 
 app.engine("handlebars", hbs.engine)
@@ -43,15 +43,16 @@ app.get("/agregar-equipo", (req, res) => {
         layout: "header",
     })
 })
-// HOLA
-app.post("/agregar-equipo", urlencodedParser, upload.single("fotoEscudo"), (req, res) => {
+
+app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+
+    const fotoEscudo = `/imagenes/${req.file.filename}`
     const equipoNuevo = req.body
+    equipoNuevo.fotoEscudo = fotoEscudo
     equipos.push(equipoNuevo)
-    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
-    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
-    // ARREGLAR MULTER PARA PODER SUBIR FOTOS
+
     // ARREGLAR MULTER PARA PODER SUBIR FOTOS
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
 
@@ -119,16 +120,8 @@ app.get("/ver-equipo/:id", (req, res) => {
                equipoSeleccionado: equipoSeleccionado
         }
     })
-
 })
-/*
-app.get("/borrar-equipo/:id", (req, res) => {
 
-    res.render("delete-team", {
-        layout: "header"
-    })
-
-})*/
 app.get("/borrar-equipo/:id", (req, res) => {
     const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
     
