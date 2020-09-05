@@ -6,7 +6,7 @@ module.exports = function nuevoEquipo(equipo){
         tla: abreviatura,
         venue: estadio,
         phone: telefono,
-        website: sitioWeb,
+        website: website,
         crestUrl: fotoEscudo,
         founded: anoFundacion,
         id: numeroId
@@ -19,7 +19,7 @@ module.exports = function nuevoEquipo(equipo){
         abreviatura,
         estadio, 
         telefono, 
-        sitioWeb, 
+        website, 
         fotoEscudo,
         pais,
         Number(anoFundacion),
