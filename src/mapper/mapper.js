@@ -9,10 +9,10 @@ module.exports = function nuevoEquipo(equipo){
         website: website,
         crestUrl: fotoEscudo,
         founded: anoFundacion,
-        id: numeroId
+        id: numeroId,
+        area: pais
     } = equipo
 
-    const pais = equipo.area.name
     
     return new Equipo(
         nombre,
