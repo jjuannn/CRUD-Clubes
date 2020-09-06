@@ -23,17 +23,18 @@ const Equipo = require("./entities/equipo.js")
 const nuevoEquipo = require ("./mapper/mapper.js")
 const e = require("express")
 
-console.log(__dirname)
+const obtenerEquipos  = () => {
+    return JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+}
 
 app.get("/", (req, res) => {
 
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    const equipos = obtenerEquipos()
 
     res.render("main", {
         layout: "header",
         data:{
-            equipos: equipos
+            equipos
         }
     })
 })
@@ -46,10 +47,10 @@ app.get("/agregar-equipo", (req, res) => {
 
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipos = obtenerEquipos()
 
     const fotoEscudo = `/imagenes/${req.file.filename}`
-    const equipoNuevo = req.body
+    const equipoNuevo = nuevoEquipo(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
     equipos.push(equipoNuevo)
 
@@ -66,9 +67,9 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
 
 app.get("/editar-equipo/:id", (req, res) => {
 
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipos = obtenerEquipos()
     let equipoSeleccionado 
-
+    
     for(let i = 0; i < equipos.length; i++){
         if(`id=${equipos[i].numeroId}` === req.params.id){
             equipoSeleccionado = equipos[i]
@@ -78,14 +79,14 @@ app.get("/editar-equipo/:id", (req, res) => {
     res.render("edit-team", {
         layout: "header", 
            data: {
-               equipoSeleccionado: equipoSeleccionado
+               equipoSeleccionado
         }
     })
 })
 
 app.post("/editar-equipo/:id", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipos = obtenerEquipos()
     
     const equipoEditado = req.body
     const fotoEscudo = `/imagenes/${req.file.filename}`
@@ -109,7 +110,7 @@ app.post("/editar-equipo/:id", urlencodedParser, upload.single("escudo"), (req, 
 })
 
 app.get("/ver-equipo/:id", (req, res) => {
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipos = obtenerEquipos()
 
     let equipoSeleccionado 
 
@@ -122,13 +123,13 @@ app.get("/ver-equipo/:id", (req, res) => {
     res.render("view-team", {
         layout: "header", 
            data: {
-               equipoSeleccionado: equipoSeleccionado
+               equipoSeleccionado
         }
     })
 })
 
 app.get("/borrar-equipo/:id", (req, res) => {
-    const equipos = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
+    const equipos = obtenerEquipos()
     
     for(let i = 0; i < equipos.length; i++){
         if(`id=${equipos[i].numeroId}` === req.params.id){
