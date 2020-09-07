@@ -48,7 +48,6 @@ app.get("/agregar-equipo", (req, res) => {
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = obtenerEquipos()
-
     const fotoEscudo = `/imagenes/${req.file.filename}`
     const equipoNuevo = nuevoEquipo(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
@@ -65,17 +64,16 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
     res.redirect("/")
 })
 
-app.get("/editar-equipo/:id", (req, res) => {
+app.get("/editar-equipo?:id", (req, res) => {
 
     const equipos = obtenerEquipos()
-    let equipoSeleccionado 
-    
+    let equipoSeleccionado
     for(let i = 0; i < equipos.length; i++){
-        if(`id=${equipos[i].numeroId}` === req.params.id){
+        if(Number(equipos[i].numeroId) === Number(req.query.id)){
             equipoSeleccionado = equipos[i]
         }
     }
-
+    console.log(equipos)
     res.render("edit-team", {
         layout: "header", 
            data: {
@@ -84,7 +82,7 @@ app.get("/editar-equipo/:id", (req, res) => {
     })
 })
 
-app.post("/editar-equipo/:id", urlencodedParser, upload.single("escudo"), (req, res) => {
+app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = obtenerEquipos()
     
@@ -109,13 +107,13 @@ app.post("/editar-equipo/:id", urlencodedParser, upload.single("escudo"), (req, 
     res.redirect("/")
 })
 
-app.get("/ver-equipo/:id", (req, res) => {
+app.get("/ver-equipo?:id", (req, res) => {
     const equipos = obtenerEquipos()
 
     let equipoSeleccionado 
 
     for(let i = 0; i < equipos.length; i++){
-        if(`id=${equipos[i].numeroId}` === req.params.id){
+        if(Number(equipos[i].numeroId) === Number(req.query.id)){
             equipoSeleccionado = equipos[i]
         }
     }
@@ -128,11 +126,11 @@ app.get("/ver-equipo/:id", (req, res) => {
     })
 })
 
-app.get("/borrar-equipo/:id", (req, res) => {
+app.get("/borrar-equipo?:id", (req, res) => {
     const equipos = obtenerEquipos()
     
     for(let i = 0; i < equipos.length; i++){
-        if(`id=${equipos[i].numeroId}` === req.params.id){
+        if(Number(equipos[i].numeroId) === Number(req.query.id)){
             equipos.splice(i, 1)
             break
         }
