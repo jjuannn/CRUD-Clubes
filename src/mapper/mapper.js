@@ -1,28 +1,30 @@
 const Equipo = require("../entities/equipo")
 
-module.exports = function nuevoEquipo(equipo){
+module.exports = function nuevoEquipoDesdeForm(equipo){
     const {
         name: nombre,
         tla: abreviatura,
         venue: estadio,
+        address: direccion,
+        founded: anoFundacion,
+        id: numeroId,
         phone: telefono,
         website: website,
         crestUrl: fotoEscudo,
-        founded: anoFundacion,
-        id: numeroId,
-        area: pais
     } = equipo
 
-    
+    const pais = equipo.area
+
     return new Equipo(
         nombre,
         abreviatura,
         estadio, 
-        telefono, 
-        website, 
-        fotoEscudo,
-        pais,
+        direccion,
         Number(anoFundacion),
-        Number(numeroId)
-        )
+        Number(numeroId),
+        telefono,
+        website,
+        pais,
+        fotoEscudo,
+    )
 }
