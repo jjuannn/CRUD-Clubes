@@ -16,7 +16,9 @@ Correr **npm run dev** para empezar la aplicacion en el puerto 3030
 - [ ] Arreglar el primer equipo de la lista.
 - [ ] Separacion en modulos
 - [ ] Subirla a Heroku
- 
+- [ ] Separar la aplicación anterior en 2 aplicaciones. Una web API y una aplicación frontend (es decir, node no renderea más HTML, sólo JSON)
+- [ ] Agregar correciones 
+  
 # Imagenes del proyecto: 
 ### Vista del home: 
 ![home page](./sample_images/home.png)
