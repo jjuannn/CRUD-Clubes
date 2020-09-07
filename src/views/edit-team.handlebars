@@ -1,4 +1,4 @@
-<form id="formulario-editar" method="POST" action="/editar-equipo/:id" enctype="multipart/form-data">
+<form id="formulario-editar" method="POST" action="/editar-equipo?:id" enctype="multipart/form-data">
   <div class="form-group">
     <label for="nombre">Nombre del club:*</label>
     <input type="text" id="nombre" name="nombre" class="form-control" value="{{data.equipoSeleccionado.nombre}}" required>
@@ -10,6 +10,10 @@
   <div class="form-group">
     <label for="estadio">Estadio:*</label>
     <input type="text" id="estadio" name="estadio" class="form-control" value="{{data.equipoSeleccionado.estadio}}" required>
+  </div>
+  <div class="form-group">
+    <label for="direccion">Direccion:*</label>
+    <input type="text" id="direccion" name="direccion" class="form-control" value="{{data.equipoSeleccionado.direccion}}" required>
   </div>
   <div class="form-group">
     <label for="fundacion">Año de fundacion:*</label>

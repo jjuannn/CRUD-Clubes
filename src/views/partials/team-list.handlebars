@@ -23,17 +23,20 @@
       {{/if}}
       <td>{{equipo.pais}}</td>
       <td>
-        <form id="editar-equipo" method="GET" action="/editar-equipo/id={{equipo.numeroId}}">
+         <form id="editar-equipo" method="GET" action="/editar-equipo">
+          <input type="hidden" name="id" value="{{equipo.numeroId}}">
           <button type="submit" class="btn btn-warning">Editar</button>
         </form>
       </td>
       <td>
-        <form id="editar-equipo" method="GET" action="/ver-equipo/id={{equipo.numeroId}}">
+        <form id="editar-equipo" method="GET" action="/ver-equipo">
+          <input type="hidden" name="id" value="{{equipo.numeroId}}">
           <button type="submit" class="btn btn-success">Ver</button>
         </form>
       </td>
       <td>
-        <form id="borrar-equipo" method="GET" action="/borrar-equipo/id={{equipo.numeroId}}">
+        <form id="borrar-equipo" method="GET" action="/borrar-equipo">
+          <input type="hidden" name="id" value="{{equipo.numeroId}}">
           <button type="submit" class="btn btn-danger">Eliminar</button>
         </form>
       </td>
