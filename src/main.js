@@ -20,17 +20,20 @@ app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
 const Equipo = require("./entities/equipo.js")
-const nuevoEquipo = require ("./mapper/mapper.js")
-const e = require("express")
+const mapper = require ("./mapper/mapper.js")
+const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
 
-const obtenerEquipos  = () => {
-    return JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
-}
+const storage = require("./storage/storage.js")
+
+const service = require("./service/service.js")
+const obtenerEquipos = service.obtenerTodosLosEquipos
+const obtenerPorId = service.obtenerPorId
+
 
 app.get("/", (req, res) => {
 
     const equipos = obtenerEquipos()
-
+    
     res.render("main", {
         layout: "header",
         data:{
@@ -49,7 +52,7 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
 
     const equipos = obtenerEquipos()
     const fotoEscudo = `/imagenes/${req.file.filename}`
-    const equipoNuevo = nuevoEquipo(req.body)
+    const equipoNuevo = nuevoEquipoDesdeForm(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
     equipos.push(equipoNuevo)
 
@@ -67,13 +70,10 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
 app.get("/editar-equipo?:id", (req, res) => {
 
     const equipos = obtenerEquipos()
-    let equipoSeleccionado
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipos[i].numeroId) === Number(req.query.id)){
-            equipoSeleccionado = equipos[i]
-        }
-    }
-    console.log(equipos)
+
+    const parametros = req.query.id
+    let equipoSeleccionado = obtenerPorId(parametros)
+
     res.render("edit-team", {
         layout: "header", 
            data: {
@@ -109,14 +109,8 @@ app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, 
 
 app.get("/ver-equipo?:id", (req, res) => {
     const equipos = obtenerEquipos()
-
-    let equipoSeleccionado 
-
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipos[i].numeroId) === Number(req.query.id)){
-            equipoSeleccionado = equipos[i]
-        }
-    }
+    const parametros = req.query.id
+    let equipoSeleccionado = obtenerPorId(parametros)
 
     res.render("view-team", {
         layout: "header", 

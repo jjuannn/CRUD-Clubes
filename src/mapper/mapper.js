@@ -1,6 +1,6 @@
 const Equipo = require("../entities/equipo")
 
-module.exports = function nuevoEquipoDesdeForm(equipo){
+function nuevoEquipoDesdeForm(equipo){
     const {
         name: nombre,
         tla: abreviatura,
@@ -27,4 +27,8 @@ module.exports = function nuevoEquipoDesdeForm(equipo){
         pais,
         fotoEscudo,
     )
+}
+
+module.exports = {
+    nuevoEquipoDesdeForm
 }
