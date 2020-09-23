@@ -1,6 +1,7 @@
 const fs = require ("fs")
 const express = require("express")
 const app = express()
+const cors = require("cors")
 
 const path = require("path")
 const multer = require ("multer")
@@ -15,6 +16,7 @@ const hbs = expHandlebars.create()
 app.use(express.static("src"))
 app.use(express.static(__dirname + "/uploads"))
 app.use(express.static(__dirname + '/styles'))
+app.use(cors())
 
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
@@ -34,12 +36,8 @@ app.get("/", (req, res) => {
 
     const equipos = obtenerEquipos()
     
-    res.render("main", {
-        layout: "header",
-        data:{
-            equipos
-        }
-    })
+    res.setHeader("Content-Type", "application/json")
+    res.send(equipos)
 })
 app.get("/agregar-equipo", (req, res) => {
 
@@ -74,12 +72,8 @@ app.get("/editar-equipo?:id", (req, res) => {
     const parametros = req.query.id
     let equipoSeleccionado = obtenerPorId(parametros)
 
-    res.render("edit-team", {
-        layout: "header", 
-           data: {
-               equipoSeleccionado
-        }
-    })
+    res.setHeader("Content-Type", "application/json")
+    res.send(equipoSeleccionado)
 })
 
 app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, res) => {
@@ -111,13 +105,9 @@ app.get("/ver-equipo?:id", (req, res) => {
     const equipos = obtenerEquipos()
     const parametros = req.query.id
     let equipoSeleccionado = obtenerPorId(parametros)
-
-    res.render("view-team", {
-        layout: "header", 
-           data: {
-               equipoSeleccionado
-        }
-    })
+    
+    res.setHeader("Content-Type", "application/json")
+    res.send(equipoSeleccionado)
 })
 
 app.get("/borrar-equipo?:id", (req, res) => {
@@ -131,7 +121,9 @@ app.get("/borrar-equipo?:id", (req, res) => {
     }
 
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
-    
+    // FALTA MODIFICAR ESTO, SOLO QUE SI LO HAGO AHORA
+    // ELIMINARIA UN EQUIPO
+
     res.redirect("/")
 })
 
