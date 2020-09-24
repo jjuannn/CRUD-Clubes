@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 
     const equipos = obtenerEquipos()
     
+
     res.setHeader("Content-Type", "application/json")
     res.send(equipos)
 })
@@ -49,7 +50,7 @@ app.get("/agregar-equipo", (req, res) => {
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = obtenerEquipos()
-    const fotoEscudo = `/imagenes/${req.file.filename}`
+    const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     const equipoNuevo = nuevoEquipoDesdeForm(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
     equipos.push(equipoNuevo)
@@ -81,7 +82,7 @@ app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, 
     const equipos = obtenerEquipos()
     
     const equipoEditado = req.body
-    const fotoEscudo = `/imagenes/${req.file.filename}`
+    const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     equipoEditado.fotoEscudo = fotoEscudo
 
     for(let i = 0; i < equipos.length; i++){
@@ -123,8 +124,6 @@ app.get("/borrar-equipo?:id", (req, res) => {
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
     // FALTA MODIFICAR ESTO, SOLO QUE SI LO HAGO AHORA
     // ELIMINARIA UN EQUIPO
-
-    res.redirect("/")
 })
 
 const PUERTO = 3030
