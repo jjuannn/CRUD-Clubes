@@ -68,8 +68,6 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
 
 app.get("/editar-equipo?:id", (req, res) => {
 
-    const equipos = obtenerEquipos()
-
     const parametros = req.query.id
     let equipoSeleccionado = obtenerPorId(parametros)
 
@@ -77,33 +75,26 @@ app.get("/editar-equipo?:id", (req, res) => {
     res.send(equipoSeleccionado)
 })
 
-app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, res) => {
-
+app.post("/editar-equipo?:id", urlencodedParser , upload.single("escudo"), (req, res) => {
     const equipos = obtenerEquipos()
-    
+
     const equipoEditado = req.body
+
     const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     equipoEditado.fotoEscudo = fotoEscudo
-
+    
     for(let i = 0; i < equipos.length; i++){
         if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
             equipos.splice(i, 1, equipoEditado)
         }
     }
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    delete equipoEditado.escudo
 
-    res.render("edit-team", {
-        layout: "header",
-        data: {
-            foto: req.file.filename
-        }
-    })
-    res.redirect("/")
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
 })
 
 app.get("/ver-equipo?:id", (req, res) => {
-    const equipos = obtenerEquipos()
     const parametros = req.query.id
     let equipoSeleccionado = obtenerPorId(parametros)
     
@@ -122,8 +113,7 @@ app.get("/borrar-equipo?:id", (req, res) => {
     }
 
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
-    // FALTA MODIFICAR ESTO, SOLO QUE SI LO HAGO AHORA
-    // ELIMINARIA UN EQUIPO
+
 })
 
 const PUERTO = 3030
