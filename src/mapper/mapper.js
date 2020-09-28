@@ -2,18 +2,17 @@ const Equipo = require("../entities/equipo")
 
 function nuevoEquipoDesdeForm(equipo){
     const {
-        name: nombre,
-        tla: abreviatura,
-        venue: estadio,
-        address: direccion,
-        founded: anoFundacion,
-        id: numeroId,
-        phone: telefono,
+        nombre: nombre,
+        abreviatura: abreviatura,
+        estadio: estadio,
+        direccion: direccion,
+        anoFundacion: anoFundacion,
+        numeroId: numeroId,
+        telefono: telefono,
         website: website,
-        crestUrl: fotoEscudo,
+        escudo: fotoEscudo,
+        pais: pais
     } = equipo
-
-    const pais = equipo.area
 
     return new Equipo(
         nombre,
