@@ -40,30 +40,31 @@ app.get("/", (req, res) => {
     res.setHeader("Content-Type", "application/json")
     res.send(equipos)
 })
-app.get("/agregar-equipo", (req, res) => {
-
-    res.render("add-team", {
-        layout: "header",
-    })
-})
-
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
     const equipos = obtenerEquipos()
+
     const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     const equipoNuevo = nuevoEquipoDesdeForm(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
-    equipos.push(equipoNuevo)
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    let inUse 
 
-    res.render("add-team", {
-        layout: "header",
-        data: {
-            foto: req.file.filename
+    for(i = 0; i < equipos.length; i++){
+        if(equipos[i].numeroId === equipoNuevo.numeroId ){
+            inUse = true
+            break
+        } else {
+            inUse = false
         }
-    })
-    res.redirect("/")
+    }
+
+    if(inUse === true){
+        throw new Error("El ID que ingresaste ya esta en uso. Por favor introducir uno nuevo")
+    } else {
+        equipos.push(equipoNuevo)
+        fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    }
 })
 
 app.get("/editar-equipo?:id", (req, res) => {
