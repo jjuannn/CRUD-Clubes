@@ -1,4 +1,4 @@
-const { resolveAny, resolveSoa } = require("dns")
+
 const fs = require("fs")
 
 const storage = require("../storage/storage.js")
@@ -22,9 +22,18 @@ function crearEquipo(nuevoEquipo){
     return storage.guardarEquipo(nuevoEquipo)
 }
 
+function editarEquipo(equipoEditado){
+    return storage.guardarCambiosEquipo(equipoEditado)
+}
+
+function borrarEquipo(id){
+    return storage.guardarBorrarEquipo(id)
+}
 
 module.exports = {
     obtenerTodosLosEquipos,
     obtenerPorId,
-    crearEquipo
+    crearEquipo,
+    editarEquipo,
+    borrarEquipo
 }
