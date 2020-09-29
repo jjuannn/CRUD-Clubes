@@ -1,4 +1,3 @@
-const fs = require ("fs")
 const express = require("express")
 const app = express()
 const cors = require("cors")
@@ -18,6 +17,7 @@ const mapper = require ("./mapper/mapper.js")
 const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
 
 const service = require("./service/service.js")
+const { guardarBorrarEquipo } = require("./storage/storage.js")
 const obtenerEquipos = service.obtenerTodosLosEquipos
 const obtenerPorId = service.obtenerPorId
 
@@ -26,7 +26,6 @@ app.get("/", (req, res) => {
 
     const equipos = obtenerEquipos()
     
-
     res.setHeader("Content-Type", "application/json")
     res.send(equipos)
 })
@@ -35,7 +34,8 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
     const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     const equipo = nuevoEquipoDesdeForm(req.body)
     equipo.fotoEscudo = fotoEscudo
-    const equipoNuevo = service.crearEquipo(equipo)
+
+    service.crearEquipo(equipo)
 
     res.redirect("/")
     
@@ -58,15 +58,10 @@ app.post("/editar-equipo?:id", urlencodedParser , upload.single("escudo"), (req,
     const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     equipoEditado.fotoEscudo = fotoEscudo
     
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
-            equipos.splice(i, 1, equipoEditado)
-        }
-    }
-
     delete equipoEditado.escudo
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    service.editarEquipo(equipoEditado)
+
 })
 
 app.get("/ver-equipo?:id", (req, res) => {
@@ -78,16 +73,8 @@ app.get("/ver-equipo?:id", (req, res) => {
 })
 
 app.get("/borrar-equipo?:id", (req, res) => {
-    const equipos = obtenerEquipos()
     
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipos[i].numeroId) === Number(req.query.id)){
-            equipos.splice(i, 1)
-            break
-        }
-    }
-
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+    service.borrarEquipo(req.query.id)
 
 })
 
