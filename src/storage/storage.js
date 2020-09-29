@@ -52,9 +52,7 @@ function guardarBorrarEquipo(id){
 
 function obtenerTodosLosEquipos(){
     const clubes = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
-    const listaEquipos = clubes.map( club => {
-        return dataMapper(club)
-    })
+    const listaEquipos = clubes.map(club => dataMapper(club));
     return listaEquipos
 }
 
