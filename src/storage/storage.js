@@ -23,6 +23,32 @@ function guardarEquipo(nuevoEquipo){
     return dataMapper(nuevoEquipo)
 }
 
+function guardarCambiosEquipo(equipoEditado){
+    const equipos = obtenerTodosLosEquipos()
+
+    for(let i = 0; i < equipos.length; i++){
+        if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
+            equipos.splice(i, 1, equipoEditado)
+        }
+    }
+
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+
+    return equipoEditado
+}
+
+function guardarBorrarEquipo(id){
+    const equipos = obtenerTodosLosEquipos()
+
+    for(let i = 0; i < equipos.length; i++){
+        if(Number(equipos[i].numeroId) === Number(id)){
+            equipos.splice(i, 1)
+            break
+        }
+    }
+
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+}
 
 function obtenerTodosLosEquipos(){
     const clubes = JSON.parse(fs.readFileSync("./data/listaEquipos.json", "utf-8"))
@@ -32,8 +58,13 @@ function obtenerTodosLosEquipos(){
     return listaEquipos
 }
 
+
+
+
 module.exports = {
     obtenerTodosLosEquipos,
     obtenerPorId,
-    guardarEquipo
+    guardarEquipo,
+    guardarCambiosEquipo,
+    guardarBorrarEquipo
 }
