@@ -51,7 +51,6 @@ app.get("/editar-equipo?:id", (req, res) => {
 })
 
 app.post("/editar-equipo?:id", urlencodedParser , upload.single("escudo"), (req, res) => {
-    const equipos = obtenerEquipos()
 
     const equipoEditado = req.body
 
@@ -73,7 +72,7 @@ app.get("/ver-equipo?:id", (req, res) => {
 })
 
 app.get("/borrar-equipo?:id", (req, res) => {
-    
+
     service.borrarEquipo(req.query.id)
 
 })
