@@ -32,14 +32,12 @@ app.get("/", (req, res) => {
 })
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const equipos = obtenerEquipos()
-
     const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
-    const equipoNuevo = nuevoEquipoDesdeForm(req.body)
-    equipoNuevo.fotoEscudo = fotoEscudo
+    const equipo = nuevoEquipoDesdeForm(req.body)
+    equipo.fotoEscudo = fotoEscudo
+    const equipoNuevo = service.crearEquipo(equipo)
 
-    equipos.push(equipoNuevo)
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    res.redirect("/")
     
 })
 
