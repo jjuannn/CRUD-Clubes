@@ -3,29 +3,19 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 
-const path = require("path")
 const multer = require ("multer")
 const upload = multer({dest: './uploads/imagenes'})
 
 const bodyParser = require("body-parser")
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-const expHandlebars = require ("express-handlebars")
-const hbs = expHandlebars.create()
-
 app.use(express.static("src"))
 app.use(express.static(__dirname + "/uploads"))
 app.use(express.static(__dirname + '/styles'))
 app.use(cors())
 
-app.engine("handlebars", hbs.engine)
-app.set("view engine", "handlebars")
-
-const Equipo = require("./entities/equipo.js")
 const mapper = require ("./mapper/mapper.js")
 const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
-
-const storage = require("./storage/storage.js")
 
 const service = require("./service/service.js")
 const obtenerEquipos = service.obtenerTodosLosEquipos
@@ -48,23 +38,9 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
     const equipoNuevo = nuevoEquipoDesdeForm(req.body)
     equipoNuevo.fotoEscudo = fotoEscudo
 
-    let inUse 
-
-    for(i = 0; i < equipos.length; i++){
-        if(equipos[i].numeroId === equipoNuevo.numeroId ){
-            inUse = true
-            break
-        } else {
-            inUse = false
-        }
-    }
-
-    if(inUse === true){
-        throw new Error("El ID que ingresaste ya esta en uso. Por favor introducir uno nuevo")
-    } else {
-        equipos.push(equipoNuevo)
-        fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
-    }
+    equipos.push(equipoNuevo)
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    
 })
 
 app.get("/editar-equipo?:id", (req, res) => {
