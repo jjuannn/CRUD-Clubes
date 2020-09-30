@@ -52,10 +52,10 @@ function borrarEquipo(id){
 
     sobreescribirDB(equipos)
 
-    if(equipos.length === valorActual){
-        return {success: false}
+    if(equipos.length - 1 === valorActual){
+        return false
     } else {
-        return {success: true}
+        return true
     }
 
 }

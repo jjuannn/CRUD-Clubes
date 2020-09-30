@@ -74,9 +74,13 @@ app.get("/borrar-equipo?:id", (req, res) => {
 
     const borrarEquipo = service.borrarEquipo(req.query.id)
 
-    if(borrarEquipo.success === true){
+    if(borrarEquipo){
+        res.setHeader("Content-Type", "application/json")
+        res.send({success: true})
         res.status(200)
     } else {
+        res.setHeader("Content-Type", "application/json")
+        res.set({success: false})
         res.status(500)
     }
 })
