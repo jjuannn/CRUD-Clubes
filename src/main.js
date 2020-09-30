@@ -25,15 +25,14 @@ const obtenerPorId = service.obtenerPorId
 app.get("/", (req, res) => {
 
     const equipos = obtenerEquipos()
-    
+
     res.setHeader("Content-Type", "application/json")
     res.send(equipos)
 })
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
     const equipo = nuevoEquipoDesdeForm(req.body)
-    equipo.fotoEscudo = fotoEscudo
+    equipo.fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
 
     service.crearEquipo(equipo)
 
@@ -61,20 +60,25 @@ app.post("/editar-equipo?:id", urlencodedParser , upload.single("escudo"), (req,
 
     service.editarEquipo(equipoEditado)
 
+    res.redirect("/")
 })
 
 app.get("/ver-equipo?:id", (req, res) => {
-    const parametros = req.query.id
-    let equipoSeleccionado = obtenerPorId(parametros)
-    
+    let equipoSeleccionado = obtenerPorId(req.query.id)
+
     res.setHeader("Content-Type", "application/json")
     res.send(equipoSeleccionado)
 })
 
 app.get("/borrar-equipo?:id", (req, res) => {
 
-    service.borrarEquipo(req.query.id)
+    const borrarEquipo = service.borrarEquipo(req.query.id)
 
+    if(borrarEquipo.success === true){
+        res.status(200)
+    } else {
+        res.status(500)
+    }
 })
 
 const PUERTO = 3030
