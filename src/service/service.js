@@ -27,7 +27,7 @@ function editarEquipo(equipoEditado){
 }
 
 function borrarEquipo(id){
-    return storage.guardarBorrarEquipo(id)
+    return storage.borrarEquipo(id)
 }
 
 module.exports = {
