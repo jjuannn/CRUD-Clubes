@@ -70,8 +70,6 @@ function sobreescribirDB(equipos){
     fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
 }
 
-
-
 module.exports = {
     obtenerTodosLosEquipos,
     obtenerPorId,
