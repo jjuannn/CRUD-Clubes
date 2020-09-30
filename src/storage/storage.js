@@ -18,7 +18,8 @@ function guardarEquipo(nuevoEquipo){
     const equipos = obtenerTodosLosEquipos()
 
     equipos.push(nuevoEquipo)
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    
+    sobreescribirDB(equipos)
 
     return dataMapper(nuevoEquipo)
 }
@@ -32,13 +33,15 @@ function guardarCambiosEquipo(equipoEditado){
         }
     }
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    sobreescribirDB(equipos)
 
     return equipoEditado
 }
 
-function guardarBorrarEquipo(id){
+function borrarEquipo(id){
     const equipos = obtenerTodosLosEquipos()
+    
+    const valorActual = equipos.length
 
     for(let i = 0; i < equipos.length; i++){
         if(Number(equipos[i].numeroId) === Number(id)){
@@ -47,7 +50,14 @@ function guardarBorrarEquipo(id){
         }
     }
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+    sobreescribirDB(equipos)
+
+    if(equipos.length === valorActual){
+        return {success: false}
+    } else {
+        return {success: true}
+    }
+
 }
 
 function obtenerTodosLosEquipos(){
@@ -58,6 +68,9 @@ function obtenerTodosLosEquipos(){
     return listaEquipos
 }
 
+function sobreescribirDB(equipos){
+    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+}
 
 
 
@@ -66,5 +79,5 @@ module.exports = {
     obtenerPorId,
     guardarEquipo,
     guardarCambiosEquipo,
-    guardarBorrarEquipo
+    borrarEquipo
 }
