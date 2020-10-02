@@ -11,13 +11,9 @@ Correr **npm run dev** para empezar la aplicacion en el puerto 3030
 
 
 ## Lista de cosas a agregar:
+- [ ] Modificarla para agregar los contenidos de la Clase 18
 - [ ] Agregar google maps para las ubicaciones de los equipos.
 - [ ] Agregar Unit Testing.
-- [x] Arreglar el primer equipo de la lista.
-- [x] Separacion en modulos
-- [ ] Subirla a Heroku
-- [x] Separar la aplicación anterior en 2 aplicaciones. Una web API y una aplicación frontend (es decir, node no renderea más HTML, sólo JSON)
-- [x] Agregar correciones 
   
 
 
