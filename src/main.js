@@ -8,6 +8,7 @@ const upload = multer({dest: './uploads/imagenes'})
 const bodyParser = require("body-parser")
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+
 app.use(express.static("src"))
 app.use(express.static(__dirname + "/uploads"))
 app.use(express.static(__dirname + '/styles'))
@@ -18,6 +19,7 @@ const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
 
 const service = require("./service/service.js")
 const { guardarBorrarEquipo } = require("./storage/storage.js")
+const { create } = require("express-handlebars")
 const obtenerEquipos = service.obtenerTodosLosEquipos
 const obtenerPorId = service.obtenerPorId
 
@@ -34,10 +36,18 @@ app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res
     const equipo = nuevoEquipoDesdeForm(req.body)
     equipo.fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
 
-    service.crearEquipo(equipo)
-
-    res.redirect("/")
+    const createTeam = service.crearEquipo(equipo)
     
+    if(createTeam){
+        res.setHeader("Content-Type", "application/json")
+        res.set({success: false})
+        res.status(500)
+    } else {
+        res.setHeader("Content-Type", "application/json")
+        res.send({success: true})
+        res.status(200)
+    }
+
 })
 
 app.get("/editar-equipo?:id", (req, res) => {
@@ -76,12 +86,12 @@ app.get("/borrar-equipo?:id", (req, res) => {
 
     if(borrarEquipo){
         res.setHeader("Content-Type", "application/json")
-        res.send({success: true})
-        res.status(200)
-    } else {
-        res.setHeader("Content-Type", "application/json")
         res.set({success: false})
         res.status(500)
+    } else {
+        res.setHeader("Content-Type", "application/json")
+        res.send({success: true})
+        res.status(200)
     }
 })
 
