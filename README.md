@@ -13,7 +13,6 @@ Correr **npm run dev** para empezar la aplicacion en el puerto 3030
 ## Lista de cosas a agregar:
 - [ ] Modificarla para agregar los contenidos de la Clase 18
 - [ ] Agregar google maps para las ubicaciones de los equipos.
-- [ ] Enviar status cuando agregamos un equipo para manejarlo en el frontend.
 - [ ] Agregar Unit Testing.
   
 
