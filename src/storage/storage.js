@@ -17,11 +17,19 @@ function obtenerPorId(idEquipo){
 function guardarEquipo(nuevoEquipo){
     const equipos = obtenerTodosLosEquipos()
 
+    const valorActual = equipos.length
+
+    for(let i = 0; i < equipos.length; i++){
+        if(equipos[i].numeroId === nuevoEquipo.numeroId ){
+            throw new Error("El ID que ingresaste ya esta en uso. Por favor introducir uno nuevo")
+        }
+    }
+
     equipos.push(nuevoEquipo)
     
     sobreescribirDB(equipos)
-
-    return dataMapper(nuevoEquipo)
+    
+    return equipos.length === valorActual
 }
 
 function guardarCambiosEquipo(equipoEditado){
