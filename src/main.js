@@ -19,8 +19,6 @@ app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
 const mapper = require ("./mapper/mapper.js")
-const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
-
 const service = require("./service/service.js")
 
 app.get("/", (req, res) => {
@@ -46,7 +44,7 @@ app.get("/agregar-equipo", (req, res) => {
 
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const equipo = nuevoEquipoDesdeForm(req.body)
+    const equipo = mapper.nuevoEquipoDesdeForm(req.body)
     equipo.fotoEscudo = `/imagenes/${req.file.filename}`
 
     service.crearEquipo(equipo)
