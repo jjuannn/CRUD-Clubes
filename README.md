@@ -3,6 +3,8 @@ CRUD¹ Clubes para la tarea de la clase 17 de r/argentina-programa
 
 ¹Create, Read, Update and Delete
 
+Este branch funciona como API para [la aplicacion frontend](https://github.com/jjuannn/frontend-app)
+
 ## Correr el proyecto: 
 
 Correr **npm install** para cargar las dependencias
