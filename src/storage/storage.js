@@ -37,6 +37,9 @@ function guardarCambiosEquipo(equipoEditado){
 
     for(let i = 0; i < equipos.length; i++){
         if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
+            if(!equipoEditado.fotoEscudo){ 
+                equipoEditado.fotoEscudo = equipos[i].fotoEscudo
+            }
             equipos.splice(i, 1, equipoEditado)
         }
     }

@@ -63,8 +63,10 @@ app.post("/editar-equipo?:id", urlencodedParser , upload.single("escudo"), (req,
 
     const equipoEditado = req.body
 
-    const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
-    equipoEditado.fotoEscudo = fotoEscudo
+    if(req.file){
+        const fotoEscudo = `http://localhost:3030/imagenes/${req.file.filename}`
+        equipoEditado.fotoEscudo = fotoEscudo
+    }
     
     delete equipoEditado.escudo
 
