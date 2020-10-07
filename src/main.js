@@ -2,7 +2,6 @@ const fs = require ("fs")
 const express = require("express")
 const app = express()
 
-const path = require("path")
 const multer = require ("multer")
 const upload = multer({dest: './uploads/imagenes'})
 
@@ -19,20 +18,14 @@ app.use(express.static(__dirname + '/styles'))
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 
-const Equipo = require("./entities/equipo.js")
 const mapper = require ("./mapper/mapper.js")
 const nuevoEquipoDesdeForm = mapper.nuevoEquipoDesdeForm
 
-const storage = require("./storage/storage.js")
-
 const service = require("./service/service.js")
-const obtenerEquipos = service.obtenerTodosLosEquipos
-const obtenerPorId = service.obtenerPorId
-
 
 app.get("/", (req, res) => {
 
-    const equipos = obtenerEquipos()
+    const equipos = service.obtenerTodosLosEquipos()
     
     res.render("main", {
         layout: "header",
@@ -40,39 +33,30 @@ app.get("/", (req, res) => {
             equipos
         }
     })
+
 })
+
 app.get("/agregar-equipo", (req, res) => {
 
     res.render("add-team", {
         layout: "header",
     })
+
 })
 
 app.post("/agregar-equipo", urlencodedParser, upload.single("escudo"), (req, res) => {
 
-    const equipos = obtenerEquipos()
-    const fotoEscudo = `/imagenes/${req.file.filename}`
-    const equipoNuevo = nuevoEquipoDesdeForm(req.body)
-    equipoNuevo.fotoEscudo = fotoEscudo
-    equipos.push(equipoNuevo)
+    const equipo = nuevoEquipoDesdeForm(req.body)
+    equipo.fotoEscudo = `/imagenes/${req.file.filename}`
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    service.crearEquipo(equipo)
 
-    res.render("add-team", {
-        layout: "header",
-        data: {
-            foto: req.file.filename
-        }
-    })
     res.redirect("/")
 })
 
 app.get("/editar-equipo?:id", (req, res) => {
 
-    const equipos = obtenerEquipos()
-
-    const parametros = req.query.id
-    let equipoSeleccionado = obtenerPorId(parametros)
+    let equipoSeleccionado = service.obtenerPorId(req.query.id)
 
     res.render("edit-team", {
         layout: "header", 
@@ -83,34 +67,21 @@ app.get("/editar-equipo?:id", (req, res) => {
 })
 
 app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, res) => {
-
-    const equipos = obtenerEquipos()
     
     const equipoEditado = req.body
-    const fotoEscudo = `/imagenes/${req.file.filename}`
-    equipoEditado.fotoEscudo = fotoEscudo
 
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipoEditado.numeroId) === Number(equipos[i].numeroId)){
-            equipos.splice(i, 1, equipoEditado)
-        }
+    if(req.file){
+        equipoEditado.fotoEscudo = `/imagenes/${req.file.filename}`
     }
 
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos))
+    service.editarEquipo(equipoEditado)
 
-    res.render("edit-team", {
-        layout: "header",
-        data: {
-            foto: req.file.filename
-        }
-    })
     res.redirect("/")
 })
 
 app.get("/ver-equipo?:id", (req, res) => {
-    const equipos = obtenerEquipos()
-    const parametros = req.query.id
-    let equipoSeleccionado = obtenerPorId(parametros)
+
+    let equipoSeleccionado = service.obtenerPorId(req.query.id)
 
     res.render("view-team", {
         layout: "header", 
@@ -121,19 +92,11 @@ app.get("/ver-equipo?:id", (req, res) => {
 })
 
 app.get("/borrar-equipo?:id", (req, res) => {
-    const equipos = obtenerEquipos()
     
-    for(let i = 0; i < equipos.length; i++){
-        if(Number(equipos[i].numeroId) === Number(req.query.id)){
-            equipos.splice(i, 1)
-            break
-        }
-    }
-
-    fs.writeFileSync("./data/listaEquipos.json", JSON.stringify(equipos), "utf-8")
+    service.borrarEquipo(req.query.id)
     
     res.redirect("/")
 })
 
 const PUERTO = 3030
-app.listen(process.env.PUERTO || PUERTO)
+app.listen(process.env.PUERTO || PUERTO, console.log(`listening at port ${PUERTO}`))
