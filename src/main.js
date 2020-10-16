@@ -1,4 +1,3 @@
-const fs = require ("fs")
 const express = require("express")
 const app = express()
 
@@ -67,7 +66,6 @@ app.get("/editar-equipo?:id", (req, res) => {
 app.post("/editar-equipo?:id", urlencodedParser, upload.single("escudo"), (req, res) => {
     
     const equipoEditado = req.body
-
     if(req.file){
         equipoEditado.fotoEscudo = `/imagenes/${req.file.filename}`
     }
