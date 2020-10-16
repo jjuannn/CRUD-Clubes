@@ -25,19 +25,19 @@
       <td>
          <form id="editar-equipo" method="GET" action="/editar-equipo">
           <input type="hidden" name="id" value="{{equipo.numeroId}}">
-          <button type="submit" class="btn btn-warning">Editar</button>
+          <button type="submit" class="btn btn-warning"><i class="fas fa-pen-square"></i></button>
         </form>
       </td>
       <td>
         <form id="editar-equipo" method="GET" action="/ver-equipo">
           <input type="hidden" name="id" value="{{equipo.numeroId}}">
-          <button type="submit" class="btn btn-success">Ver</button>
+          <button type="submit" class="btn btn-success"><i class="fas fa-eye"></i></button>
         </form>
       </td>
       <td>
         <form id="borrar-equipo" method="GET" action="/borrar-equipo">
           <input type="hidden" name="id" value="{{equipo.numeroId}}">
-          <button type="submit" class="btn btn-danger">Eliminar</button>
+          <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
         </form>
       </td>
     </tr>
